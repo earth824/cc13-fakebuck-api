@@ -52,3 +52,24 @@ exports.acceptFriend = async (req, res, next) => {
     next(err);
   }
 };
+
+exports.deleteFriend = async (req, res, next) => {
+  try {
+    const totalDelete = await Friend.destroy({
+      where: {
+        [Op.or]: [
+          { requesterId: req.params.friendId, accepterId: req.user.id },
+          { requesterId: req.user.id, accepterId: req.params.friendId }
+        ]
+      }
+    });
+
+    if (totalDelete === 0) {
+      createError('you do not have relationship with this friend', 400);
+    }
+
+    res.status(204).json();
+  } catch (err) {
+    next(err);
+  }
+};
