@@ -9,6 +9,7 @@ const {
 } = require('../config/constant');
 const { User, Friend } = require('../models');
 const createError = require('../utils/create-error');
+const cloudinary = require('../utils/cloudinary');
 
 exports.getUserInfoById = async (req, res, next) => {
   try {
@@ -79,6 +80,7 @@ exports.getUserInfoById = async (req, res, next) => {
 exports.updateProfileImage = async (req, res, next) => {
   try {
     console.log(req.files);
+    await cloudinary.upload(req.files.profileImage[0].path);
     res.status(200).json();
   } catch (err) {
     next(err);
