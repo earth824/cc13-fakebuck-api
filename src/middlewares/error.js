@@ -2,6 +2,7 @@ const chalk = require('chalk');
 
 module.exports = (err, req, res, next) => {
   console.log(chalk.redBright.bold.italic(err));
+  console.log(err);
 
   if (err.name === 'ValidationError') {
     err.statusCode = 400;

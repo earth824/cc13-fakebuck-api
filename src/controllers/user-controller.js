@@ -112,7 +112,7 @@ exports.updateProfileImage = async (req, res, next) => {
     }
 
     await User.update(value, { where: { id: req.user.id } });
-    res.status(200).json({ message: 'success update' });
+    res.status(200).json(value);
   } catch (err) {
     next(err);
   } finally {
