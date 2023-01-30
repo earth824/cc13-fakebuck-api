@@ -8,6 +8,7 @@ const rateLimit = require('express-rate-limit');
 
 const authRoute = require('./routes/auth-route');
 const userRoute = require('./routes/user-route');
+const postRoute = require('./routes/post-route');
 const friendRoute = require('./routes/friend-route');
 const authenticateMiddleware = require('./middlewares/authenticate');
 const notFoundMiddleware = require('./middlewares/not-found');
@@ -31,6 +32,7 @@ app.use(express.json());
 app.use('/auth', authRoute);
 app.use('/users', authenticateMiddleware, userRoute);
 app.use('/friends', authenticateMiddleware, friendRoute);
+app.use('/posts', authenticateMiddleware, postRoute);
 
 app.use(notFoundMiddleware);
 app.use(errorMiddleware);
