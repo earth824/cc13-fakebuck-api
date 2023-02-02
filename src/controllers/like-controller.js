@@ -1,4 +1,4 @@
-const { Like } = require('../models');
+const { Like, User } = require('../models');
 const createError = require('../utils/create-error');
 
 exports.createLike = async (req, res, next) => {
@@ -14,11 +14,16 @@ exports.createLike = async (req, res, next) => {
       createError("you've already liked this post", 400);
     }
 
-    await Like.create({
+    const newLike = await Like.create({
       userId: req.user.id,
       postId: req.params.postId
     });
-    res.status(201).json({ message: 'success like' });
+
+    const like = await Like.findOne({
+      where: { id: newLike.id },
+      include: { model: User }
+    });
+    res.status(201).json({ like });
   } catch (err) {
     next(err);
   }
